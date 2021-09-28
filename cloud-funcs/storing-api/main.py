@@ -1,48 +1,33 @@
 from google.cloud import firestore
 from models import Counter
-# import logging
-
-# logger = logging.getLogger('root')
-# logger.setLevel(logging.DEBUG)
-# logger.debug("Logging started")
+import base64
 
 SHARDS_AMOUNT = 20
+TOPIC_NAME = "NEW_VISIT_EVENT"
 
-def init_counter(request):
-    """Responds to any HTTP request.
-    Args:
-        request (flask.Request): HTTP request object.
-    Returns:
-        The response text or any set of values that can be turned into a
-        Response object using
-        `make_response <http://flask.pocoo.org/docs/1.0/api/#flask.Flask.make_response>`.
-    """
+# def get_counter(request):
+#     if request.args and 'type' in request.args:
+#         db = firestore.Client() # doc_ref
+#         counter = Counter(SHARDS_AMOUNT, request.args.get('type') + "_shards")
+#         return f'{counter.get_count(db)}'
+#     else:
+#         return 'Provide type with ?type=...'
 
-    if request.args and 'type' in request.args:
-        # Add a new document
-        db = firestore.Client() # doc_ref
-        counter = Counter(SHARDS_AMOUNT, request.args.get('type') + "_shards")
-        counter.init_counter(db)
-        # logger.info("Counter home created!")
+# subscribed to topic
+def store_incremented_counter(event, context):
+    print("""This Function was triggered by messageId {} published at {} to {}
+    """.format(context.event_id, context.timestamp, context.resource.get('data', None)))
 
-        return f'Created shards for {request.args.get("type")}'
-    else:
-        return 'Provide type with ?type=...'
+    print(event)
 
-def get_counter(request):
-    if request.args and 'type' in request.args:
-        db = firestore.Client() # doc_ref
-        counter = Counter(SHARDS_AMOUNT, request.args.get('type') + "_shards")
-        return f'{counter.get_count(db)}'
-    else:
-        return 'Provide type with ?type=...'
+    cosa = base64.b64decode(event['visit_type']).decode('utf-8')
+    print('Hello {}!'.format(cosa))
 
-def inc_counter(request):
-    if request.args and 'type' in request.args:
-        db = firestore.Client() # doc_ref
-        counter = Counter(SHARDS_AMOUNT, request.args.get('type') + "_shards")
-        counter.increment_counter(db)
+    # if request.args and 'type' in request.args:
+    #     db = firestore.Client() # doc_ref
+    #     counter = Counter(SHARDS_AMOUNT, request.args.get('type') + "_shards")
+    #     counter.increment_counter(db)
 
-        return f'OK'
-    else:
-        return 'Provide type with ?type=...'
+    #     return f'OK'
+    # else:
+    #     return 'Provide type with ?type=...'
