@@ -1,17 +1,19 @@
 (function ($) {
 
-	let paths = window.location.pathname.split('/');
-	let type = paths[paths.length - 1].slice(0, -5);
+	const BASE_PATH = 'https://southamerica-east1-taller3-fgiordano.cloudfunctions.net';
+
+	const search_params = new URLSearchParams(window.location.search);
+	const page_type = search_params.get('page');
 
 	// Contador de visitas
-	fetch(`https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/inc-counter?visit_type=${type}`)
+	fetch(BASE_PATH + '/inc-counter?visit_type=' + page_type)
 		// .then(response => response.text())
 		// .then(data => { $('#contador').text('Contador de visitas: ' + data); })
 		// .catch(function (error) {
 		// 	console.log('Looks like there was a problem: \n', error);
 		// });
 
-	fetch(`https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/get-counter?visit_type=${type}`)
+	fetch(BASE_PATH + '/get-counter?visit_type=' + page_type)
 		.then(response => response.text())
 		.then(data => { $('#contador').text('Contador de visitas: ' + data); })
 		.catch(function (error) {
