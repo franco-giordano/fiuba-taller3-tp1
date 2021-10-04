@@ -7,6 +7,15 @@ Con commit: 39ac3d0e5142ae21587a4ec72581010a041dc6a3 (sin cachear render_templte
 Sin cachear counters con Memorystore
 100 users max, incrementos +1/s, ~3min de run total
 firestore: 20 shards por collection
+duracion: 10/3/2021, 6:51:40 PM - 6:54:22 PM
+
+CONCLUSIONES:
+get_count parece ser la unica que lanzo errores
+get_count usa bastante ram, pero no tan distinto a otras
+get_count tarda mucho en ejecutarse, hasta 400ms cuando el resto usa 50-100ms.
+firestore alcanza hasta 400reads/s, pero 20writes/s.
+--> Esto limita al incremento de contadores, pero no a su lectura,
+	por lo que el bloqueante de get_count no es firestore en si.
 """
 
 BASE_APP_URL = "https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/app"
