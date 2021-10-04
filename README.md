@@ -1,6 +1,7 @@
 # fiuba-taller3-tp1
 
-Bucket URL: https://storage.googleapis.com/fgiordano-static/index.html
+Bucket URL: https://storage.googleapis.com/fgiordano-static/
+App URL: https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/app?page=home
 
 Deploy cloud func: `gcloud functions deploy get-counter --region=southamerica-east1 --entry-point get_counter --runtime python39 --trigger-http --allow-unauthenticated`
 
@@ -11,5 +12,11 @@ Pubsub:
 - reqs.txt: `google-cloud-pubsub` (creo)
 
 TODO:
-- duplicate inc function: one http-exposed and publish in pubsub, other pubsub-triggered and update firestore
 - review deduplication methods and ACK in gcloud pubsub
+- decide on retry policy for fetch() in main.js
+
+
+INFRA TESTS:
+- using memorystore
+- more/less collection shards
+- more/less max instances in gcfs?

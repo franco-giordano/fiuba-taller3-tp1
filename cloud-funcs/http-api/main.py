@@ -83,11 +83,6 @@ def inc_counter(request):
     }
 
     if request.args and 'visit_type' in request.args:
-        # db = firestore.Client() # doc_ref
-        # counter = Counter(SHARDS_AMOUNT, request.args.get('type') + "_shards")
-        # counter.increment_counter(db)
-
-        # request_json = request.get_json(silent=True)
 
         message = request.args.get('visit_type')
 
