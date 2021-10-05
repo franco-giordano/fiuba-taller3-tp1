@@ -6,23 +6,13 @@ import base64
 import json
 import os
 
-
 # Instantiates a Pub/Sub client
 publisher = pubsub_v1.PublisherClient()
 PROJECT_ID = os.getenv('GOOGLE_CLOUD_PROJECT')
-TOPIC_NAME = "NEW_VISIT_EVENT"
-SHARDS_AMOUNT = 20
+TOPIC_NAME = os.getenv('TOPIC_NAME') # "NEW_VISIT_EVENT"
+SHARDS_AMOUNT = int(os.getenv('SHARDS_AMOUNT'))
 
 def init_counter(request):
-    """Responds to any HTTP request.
-    Args:
-        request (flask.Request): HTTP request object.
-    Returns:
-        The response text or any set of values that can be turned into a
-        Response object using
-        `make_response <http://flask.pocoo.org/docs/1.0/api/#flask.Flask.make_response>`.
-    """
-
     request_json = request.get_json()
     if request_json and 'visit_type' in request_json:
         # Add a new document
@@ -64,7 +54,10 @@ def get_counter(request):
 
 
 def inc_counter(request):
-        # Set CORS headers for the preflight request
+    # TODO:
+    # - arreglar retry policies
+
+    # Set CORS headers for the preflight request
     if request.method == 'OPTIONS':
         # Allows GET requests from any origin with the Content-Type
         # header and caches preflight response for an 3600s
