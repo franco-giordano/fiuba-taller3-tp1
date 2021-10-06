@@ -1,4 +1,7 @@
-from locust import HttpUser, task
+from locust import HttpUser, task, between
+
+# REHACER ------------------------------------------------------
+# mal configuradas las cloud funcs
 
 """
 NOTES:
@@ -15,6 +18,7 @@ CONCLUSIONES:
 BASE_APP_URL = "https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/app"
 
 class CuriousUser(HttpUser):
+	wait_time = between(6,10)
 
 	@task(3)
 	def get_home(self):
@@ -22,7 +26,7 @@ class CuriousUser(HttpUser):
 		self.client.get(BASE_APP_URL + "?view=home")
 
 		# grab resources
-		self._get_resources()
+		# self._get_resources()
 
 		# grab stats
 		self._get_stats('home')
@@ -33,8 +37,8 @@ class CuriousUser(HttpUser):
 		self.client.get(BASE_APP_URL + "?view=jobs")
 
 		# grab resources
-		self._get_resources()
-		self.client.get("https://storage.googleapis.com/fgiordano-static/images/fiuba1.png")
+		# self._get_resources()
+		# self.client.get("https://storage.googleapis.com/fgiordano-static/images/fiuba1.png")
 		
 		# grab stats
 		self._get_stats('jobs')
@@ -45,8 +49,8 @@ class CuriousUser(HttpUser):
 		self.client.get(BASE_APP_URL + "?view=about")
 
 		# grab resources
-		self._get_resources()
-		self.client.get("https://storage.googleapis.com/fgiordano-static/images/fiuba2.png")
+		# self._get_resources()
+		# self.client.get("https://storage.googleapis.com/fgiordano-static/images/fiuba2.png")
 		
 		# grab stats
 		self._get_stats('about')
@@ -57,11 +61,12 @@ class CuriousUser(HttpUser):
 		self.client.get(BASE_APP_URL + "?view=about_legals")
 
 		# grab resources
-		self._get_resources()
+		# self._get_resources()
 		
 		# grab stats
 		self._get_stats('about_legals')
 
+	# no quiero probar gcs! lo comento en todos los tasks
 	def _get_resources(self):
 		self.client.get("https://storage.googleapis.com/fgiordano-static/assets/css/main.css")
 		self.client.get("https://storage.googleapis.com/fgiordano-static/assets/css/fontawesome-all.min.css")
