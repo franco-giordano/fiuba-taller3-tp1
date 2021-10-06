@@ -6,16 +6,11 @@
 	const page_type = search_params.get('page');
 
 	// Contador de visitas
-	fetch(BASE_PATH + '/inc-counter?visit_type=' + page_type)
-		// .then(response => response.text())
-		// .then(data => { $('#contador').text('Contador de visitas: ' + data); })
-		// .catch(function (error) {
-		// 	console.log('Looks like there was a problem: \n', error);
-		// });
+	fetch(BASE_PATH + '/inc-counter?visit_type=' + page_type, { method: 'POST' })
 
 	fetch(BASE_PATH + '/get-counter?visit_type=' + page_type)
-		.then(response => response.text())
-		.then(data => { $('#contador').text('Contador de visitas: ' + data); })
+		.then(response => response.json())
+		.then(data => { $('#contador').text('Contador de visitas: ' + data['msg']); })
 		.catch(function (error) {
 			console.log('Looks like there was a problem: \n', error);
 		});
