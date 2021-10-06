@@ -7,11 +7,11 @@ import json
 import os
 
 def fix_cors(f):
-    def decorated(*args, **kwargs):
+    def decorated(request):
         if request.method == 'OPTIONS':
             headers = {
                 'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET',
+                'Access-Control-Allow-Methods': 'GET, POST',
                 'Access-Control-Allow-Headers': 'Content-Type',
                 'Access-Control-Max-Age': '3600'
             }
@@ -21,7 +21,7 @@ def fix_cors(f):
         headers = {
             'Access-Control-Allow-Origin': '*'
         }
-        return (*f(*args, **kwargs), headers)
+        return (*f(request), headers)
 
     return decorated
 
