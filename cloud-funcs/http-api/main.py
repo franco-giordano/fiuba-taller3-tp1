@@ -1,10 +1,18 @@
 from google.cloud import firestore
 from google.cloud import pubsub_v1
-from models import Counter
+from models import Counter, ExpiringCache
 
 import base64
 import json
 import os
+
+PROJECT_ID = os.getenv('GOOGLE_CLOUD_PROJECT')
+TOPIC_NAME = os.getenv('TOPIC_NAME')  # "NEW_VISIT_EVENT"
+SHARDS_AMOUNT = int(os.getenv('SHARDS_AMOUNT'))
+TTL_SECONDS = int(os.getenv('TTL_SECONDS'))
+
+COUNTS_CACHE = ExpiringCache(ttl_sec=TTL_SECONDS)
+publisher = pubsub_v1.PublisherClient()
 
 def fix_cors(f):
     def decorated(request):
@@ -25,14 +33,6 @@ def fix_cors(f):
 
     return decorated
 
-
-# Instantiates a Pub/Sub client
-publisher = pubsub_v1.PublisherClient()
-PROJECT_ID = os.getenv('GOOGLE_CLOUD_PROJECT')
-TOPIC_NAME = os.getenv('TOPIC_NAME')  # "NEW_VISIT_EVENT"
-SHARDS_AMOUNT = int(os.getenv('SHARDS_AMOUNT'))
-
-
 def init_counter(request):
     request_json = request.get_json()
     if request_json and 'visit_type' in request_json:
@@ -51,9 +51,9 @@ def init_counter(request):
 @fix_cors
 def get_counter(request):
     if request.args and 'visit_type' in request.args:
+        count = _get_visits_count(request.args.get('visit_type'))
         db = firestore.Client()  # doc_ref
-        counter = Counter(SHARDS_AMOUNT, request.args.get(
-            'visit_type') + "_shards")
+        counter = Counter(SHARDS_AMOUNT, aaa + "_shards")
         return ({'msg': f'{counter.get_count(db)}'}, 200)
     else:
         return ({'err': 'Provide visit type with ?visit_type=...'}, 400)
@@ -81,3 +81,14 @@ def inc_counter(request):
 
     else:
         return ({'err': 'Provide type with ?visit_type=...'}, 400)
+
+def _get_visits_count(visit_type):
+    count = 0
+    try:
+        count = COUNTS_CACHE.get(visit_type)
+    except KeyError:
+        db = firestore.Client()  # doc_ref
+        counter = Counter(SHARDS_AMOUNT, visit_type + "_shards")
+        count = counter.get_count(db)
+        COUNTS_CACHE.put(visit_type, count)
+    return count

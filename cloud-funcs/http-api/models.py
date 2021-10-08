@@ -1,5 +1,6 @@
 from google.cloud import firestore
 import random
+from datetime import datetime
 
 class Shard(object):
     """
@@ -52,3 +53,24 @@ class Counter(object):
         for shard in shards:
             total += shard.get().to_dict().get("count", 0)
         return total
+
+class ExpiringCache:
+    def __init__(self, ttl_sec):
+        self._ttl_sec = ttl_sec
+        self._cache = {}
+    
+    def put(self, key, value):
+        self._cache[key] = (value, datetime.now())
+    
+    def get(self, key):
+        if key not in self._cache:
+            raise KeyError
+        
+        pair = self._cache[key]
+
+        if (datetime.now() - pair[1]).seconds >= self._ttl_sec:
+            # expired
+            del self._cache[key]
+            raise KeyError
+        else:
+            return pair[0]
