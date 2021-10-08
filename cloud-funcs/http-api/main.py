@@ -52,9 +52,7 @@ def init_counter(request):
 def get_counter(request):
     if request.args and 'visit_type' in request.args:
         count = _get_visits_count(request.args.get('visit_type'))
-        db = firestore.Client()  # doc_ref
-        counter = Counter(SHARDS_AMOUNT, aaa + "_shards")
-        return ({'msg': f'{counter.get_count(db)}'}, 200)
+        return ({'msg': f'{count}'}, 200)
     else:
         return ({'err': 'Provide visit type with ?visit_type=...'}, 400)
 
