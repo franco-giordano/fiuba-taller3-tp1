@@ -4,7 +4,6 @@ import base64
 import json
 import os
 
-TOPIC_NAME = os.getenv('TOPIC_NAME') # "NEW_VISIT_EVENT"
 SHARDS_AMOUNT = int(os.getenv('SHARDS_AMOUNT'))
 
 # subscribed to topic
