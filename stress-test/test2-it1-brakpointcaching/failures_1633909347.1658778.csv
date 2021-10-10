@@ -1,0 +1,6 @@
+Method,Name,Error,Occurrences
+POST,/inc-counter?visit_type=jobs,429 Client Error: Too Many Requests for url: https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/inc-counter?visit_type=jobs,388
+POST,/inc-counter?visit_type=about_legals,429 Client Error: Too Many Requests for url: https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/inc-counter?visit_type=about_legals,104
+POST,/inc-counter?visit_type=home,429 Client Error: Too Many Requests for url: https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/inc-counter?visit_type=home,302
+POST,/inc-counter?visit_type=about_offices,429 Client Error: Too Many Requests for url: https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/inc-counter?visit_type=about_offices,176
+POST,/inc-counter?visit_type=about,429 Client Error: Too Many Requests for url: https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/inc-counter?visit_type=about,196
