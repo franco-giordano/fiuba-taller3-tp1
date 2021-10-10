@@ -1,0 +1,6 @@
+Method,Name,Error,Occurrences
+GET,/get-counter?visit_type=about,429 Client Error: Too Many Requests for url: https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/get-counter?visit_type=about,111
+GET,/get-counter?visit_type=about_offices,429 Client Error: Too Many Requests for url: https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/get-counter?visit_type=about_offices,102
+GET,/get-counter?visit_type=jobs,429 Client Error: Too Many Requests for url: https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/get-counter?visit_type=jobs,238
+GET,/get-counter?visit_type=home,429 Client Error: Too Many Requests for url: https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/get-counter?visit_type=home,156
+GET,/get-counter?visit_type=about_legals,429 Client Error: Too Many Requests for url: https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/get-counter?visit_type=about_legals,47
