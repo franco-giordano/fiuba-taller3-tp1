@@ -19,53 +19,56 @@ CONCLUSIONES:
 
 BASE_APP_URL = "https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/app"
 
+
 class CuriousUser(HttpUser):
-	wait_time = between(3,5)
+    wait_time = between(3, 5)
 
-	@task(3)
-	def get_home(self):
-		# grab html
-		self.client.get(BASE_APP_URL + "?view=home")
+    @task(3)
+    def get_home(self):
+        # grab html
+        self.client.get(BASE_APP_URL + "?view=home")
 
-		# grab stats
-		self._get_stats('home')
+        # grab stats
+        self._get_stats('home')
 
-	@task(4)
-	def get_jobs(self):
-		# grab html
-		self.client.get(BASE_APP_URL + "?view=jobs")
-		
-		# grab stats
-		self._get_stats('jobs')
+    @task(4)
+    def get_jobs(self):
+        # grab html
+        self.client.get(BASE_APP_URL + "?view=jobs")
 
-	@task(2)
-	def get_about(self):
-		# grab html
-		self.client.get(BASE_APP_URL + "?view=about")
+        # grab stats
+        self._get_stats('jobs')
 
-		# grab stats
-		self._get_stats('about')
-	
-	@task(2)
-	def get_about_offices(self):
-		# grab html
-		self.client.get(BASE_APP_URL + "?view=about_offices")
+    @task(2)
+    def get_about(self):
+        # grab html
+        self.client.get(BASE_APP_URL + "?view=about")
 
-		# grab stats
-		self._get_stats('about_offices')
+        # grab stats
+        self._get_stats('about')
 
+    @task(2)
+    def get_about_offices(self):
+        # grab html
+        self.client.get(BASE_APP_URL + "?view=about_offices")
 
-	@task(1)
-	def get_about_legals(self):
-		# grab html
-		self.client.get(BASE_APP_URL + "?view=about_legals")
+        # grab stats
+        self._get_stats('about_offices')
 
-		# grab stats
-		self._get_stats('about_legals')
+    @task(1)
+    def get_about_legals(self):
+        # grab html
+        self.client.get(BASE_APP_URL + "?view=about_legals")
 
-	def _get_stats(self, v_type):
-		self.client.post(f'https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/inc-counter?visit_type={v_type}')
-		self.client.get(f'https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/get-counter?visit_type={v_type}')
+        # grab stats
+        self._get_stats('about_legals')
+
+    def _get_stats(self, v_type):
+        self.client.post(
+            f'https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/inc-counter?visit_type={v_type}')
+        self.client.get(
+            f'https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/get-counter?visit_type={v_type}')
+
 
 class StagesShape(LoadTestShape):
     """
@@ -86,8 +89,9 @@ class StagesShape(LoadTestShape):
     stages = [
         {"duration": 525, "users": 450, "spawn_rate": 2},
         {"duration": 625, "users": 650, "spawn_rate": 2},
-        {"duration": 685, "users": 300, "spawn_rate": 2},
-        {"duration": 1160, "users": 1, "spawn_rate": 2}
+        {"duration": 685, "users": 650, "spawn_rate": 2},
+        {"duration": 1160, "users": 300, "spawn_rate": 2},
+        {"duration": 1310, "users": 1, "spawn_rate": 2}
     ]
 
     def tick(self):
