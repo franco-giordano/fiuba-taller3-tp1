@@ -1,0 +1,12 @@
+Method,Name,Error,Occurrences
+POST,/inc-counter?visit_type=jobs,429 Client Error: Too Many Requests for url: https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/inc-counter?visit_type=jobs,279
+POST,/inc-counter?visit_type=about_legals,429 Client Error: Too Many Requests for url: https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/inc-counter?visit_type=about_legals,66
+GET,/get-counter?visit_type=jobs,[Errno 104] Connection reset by peer,1
+POST,/inc-counter?visit_type=home,429 Client Error: Too Many Requests for url: https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/inc-counter?visit_type=home,181
+GET,/app?view=jobs,[Errno 104] Connection reset by peer,1
+GET,/app?view=about_offices,[Errno -3] Temporary failure in name resolution,2
+GET,/app?view=home,[Errno -3] Temporary failure in name resolution,3
+POST,/inc-counter?visit_type=about_offices,429 Client Error: Too Many Requests for url: https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/inc-counter?visit_type=about_offices,113
+POST,/inc-counter?visit_type=about,429 Client Error: Too Many Requests for url: https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/inc-counter?visit_type=about,104
+GET,/app?view=jobs,[Errno -3] Temporary failure in name resolution,2
+GET,/app?view=about,[Errno -3] Temporary failure in name resolution,3

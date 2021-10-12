@@ -5,7 +5,7 @@ NOTES:
 ------------- BREAKPOINT TEST
 cloud funcs limitadas a 2 instancias maximo EXCEPTO POR
 	store-inc-counter con 4 instancias
-Con commit: e20c0b76bfbab4dd8e30d9c5c1a7689824e2f9df (cacheando L1 10 segs get-counter)
+Con commit: 56506b4220ab629fd02e7a330438dd3ee8304c5b (cacheando L1 10 segs get-counter, otros cambios son en GCP)
 CACHEANDO CON VARIABLE GLOBAL, 10 SEGUNDOS TTL 
 30000 users max, incrementos +1/s, ~XXXmin de run total
 firestore: 20 shards por collection
