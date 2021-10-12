@@ -1,15 +1,17 @@
 from locust import HttpUser, task, between
+from locust import LoadTestShape
 
 """
 NOTES:
-------------- BREAKPOINT TEST
+------------- ENDURANCE TEST
 cloud funcs limitadas a 2 instancias maximo EXCEPTO POR
 	store-inc-counter con 4 instancias
-Con commit: 56506b4220ab629fd02e7a330438dd3ee8304c5b (cacheando L1 10 segs get-counter, otros cambios son en GCP)
+Con commit:  (cacheando L1 10 segs get-counter, otros cambios son en GCP)
 CACHEANDO CON VARIABLE GLOBAL, 10 SEGUNDOS TTL 
-30000 users max, incrementos +1/s, ~15min de run total
+custom shape, ~XXXmin de run total
 firestore: 20 shards por collection
-duracion: 10/11/2021, 10:56:53 PM - 10/11/2021, 11:12:39 PM
+duracion: 
+
 
 CONCLUSIONES:
 
@@ -65,12 +67,35 @@ class CuriousUser(HttpUser):
 		self.client.post(f'https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/inc-counter?visit_type={v_type}')
 		self.client.get(f'https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/get-counter?visit_type={v_type}')
 
-	# # no quiero probar gcs! lo comento en todos los tasks
-	# def _get_resources(self):
-	# 	self.client.get("https://storage.googleapis.com/fgiordano-static/assets/css/main.css")
-	# 	self.client.get("https://storage.googleapis.com/fgiordano-static/assets/css/fontawesome-all.min.css")
-	# 	self.client.get("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,900,300italic")
-	# 	self.client.get("https://storage.googleapis.com/fgiordano-static/images/favicon.png")
-	# 	self.client.get("https://storage.googleapis.com/fgiordano-static/assets/js/jquery.min.js")
-	# 	self.client.get("https://storage.googleapis.com/fgiordano-static/assets/js/jquery.dropotron.min.js")
-	# 	self.client.get("https://storage.googleapis.com/fgiordano-static/assets/js/main.js")
+class StagesShape(LoadTestShape):
+    """
+    A simply load test shape class that has different user and spawn_rate at
+    different stages.
+
+    Keyword arguments:
+
+        stages -- A list of dicts, each representing a stage with the following keys:
+            duration -- When this many seconds pass the test is advanced to the next stage
+            users -- Total user count
+            spawn_rate -- Number of users to start/stop per second
+            stop -- A boolean that can stop that test at a specific stage
+
+        stop_at_end -- Can be set to stop once all stages have run.
+    """
+
+    stages = [
+        {"duration": 525, "users": 450, "spawn_rate": 2},
+        {"duration": 625, "users": 650, "spawn_rate": 2},
+        {"duration": 685, "users": 300, "spawn_rate": 2},
+        {"duration": 1160, "users": 1, "spawn_rate": 2}
+    ]
+
+    def tick(self):
+        run_time = self.get_run_time()
+
+        for stage in self.stages:
+            if run_time < stage["duration"]:
+                tick_data = (stage["users"], stage["spawn_rate"])
+                return tick_data
+
+        return None
