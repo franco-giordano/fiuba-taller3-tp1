@@ -59,8 +59,6 @@ def get_counter(request):
 
 @fix_cors
 def inc_counter(request):
-    # TODO:
-    # - arreglar retry policies
     if request.method != 'POST':
         return ({'err': 'Method not allowed'}, 400)
 
