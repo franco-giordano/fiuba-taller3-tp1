@@ -13,5 +13,3 @@ Trabajo Practico 1 para la materia Taller de Programacion III, FIUBA, 2C2021.
 > - El sistema debe escalar automáticamente con el tráfico recibido.
 > - El sistema debe mostrar alta disponibilidad hacia los clientes.
 > - El sistema debe ser tolerante a fallos como la caída de procesos.
-
-App URL: https://southamerica-east1-taller3-fgiordano.cloudfunctions.net/app?page=home
